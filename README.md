@@ -3,40 +3,40 @@
 
 ## Introduction
 
-Hey Folks, I recently begin learning sass. It makes css writing easy, logical & hasell free. Sass helps in writing css programtically which helps to write reusable classes alongwith logical properties.
+Hey Folks, I recently begin learning sass. Sass helps in writing CSS programmatically which helps to write reusable classes along with logical properties.
 
-Sass documentation has given a pleasant way of writing media-queryies where you can write your media queries while defining you class itself, but with this approach your css file might contain multiple media-queries for same media type which in turn increase css code length in the file. 
+Sass documentation has given a pleasant way of writing media-queries where you can write your media queries while defining your class itself, but with this approach your CSS file might contain multiple media-queries for the same media type which in turn increase CSS code length in the file. 
 
-This happens because sass doesnt stores any complied css. It complies and writes directly to css file.
+This happens because sass doesn't store any complied CSS. It compiles and writes directly to the CSS file.
 
 So I have developed a small plugin wherein you can write media queries similar to the way you used to in sass but in this scenario there will be no duplication of similar media types and also all the media queries will be present at a single location.
 
-This helps to keep css code length minimal and upto the mark and also it becomes easy for non-sass css developers to debug the css.
+This helps to keep CSS code length minimal and up to the mark and also it becomes easy for non-sass CSS developers to debug the CSS.
 
 ## How Does it Work??
-* The plugin contains a _media-query-config.scss file where the standard media-queries like sm, lg, md, xs have some fixed value, you can change as per your need.
-* Calling the respective mixins you can pass css for the class you want. 
+* The plugin contains a _media-query-config.sCSS file where the standard media-queries like sm, lg, md, xs have some fixed value, you can change as per your need.
+* Calling the respective mixins you can pass CSS for the class you want. 
 * This will create a sass-map for each breakpoints which will act like buffer. 
-* Everytime you call a mixin of specific breakpoint (eg: for-sm(...)) the css you specify will be stored in the respective buffer map for the respective class. 
-* When you will call apply-media-css() mixin all this buffer maps will be released and printed.
+* Everytime you call a mixin of specific breakpoint (eg: for-sm(...)) the CSS you specify will be stored in the respective buffer map for the respective class. 
+* When you will call apply-media-CSS() mixin all this buffer maps will be released and printed.
 
-**Summary**: So all media query css is stored in s buffer and dumped when you call apply-media-css() mixin.
+**Summary**: So all media query CSS is stored in s buffer and dumped when you call apply-media-CSS() mixin.
 
 ## Lets use it
 
-1. Include this line in your style.scss<br> 
+1. Include this line in your style.sCSS<br> 
 ``` @import "media-query/_media-query-config"; ```
-2. Include this line in our scss file where you want to generate media query css<br> 
-``` @include apply-media-css(); ```
+2. Include this line in our sCSS file where you want to generate media query CSS<br> 
+``` @include apply-media-CSS(); ```
 
 #### *For the standard breakpoints:*
 
 ```
 @include for-{breakpoint_name}(selector_name, (
-	css-property1: value1,
-	css-property2: value2,
+	CSS-property1: value1,
+	CSS-property2: value2,
 	...
-	css-propertyN: valueN
+	CSS-propertyN: valueN
 ));
 ```
 
@@ -53,10 +53,10 @@ This helps to keep css code length minimal and upto the mark and also it becomes
 #### *For other screen widths:*
 ```
 @include for-screen(screen_width, selector_name, (
-	css-property1: value1,
-	css-property2: value2,
+	CSS-property1: value1,
+	CSS-property2: value2,
 	...
-	css-propertyN: valueN
+	CSS-propertyN: valueN
 ));
 ```
 
@@ -73,7 +73,7 @@ This helps to keep css code length minimal and upto the mark and also it becomes
 
 > This will generate media query of (max-width: 991px), for (min-width: 991px) give screen with - as prefix. (Example: for-screen(-991px, ..., (...));)
 
-_You can refer style.scss for demo_.
+_You can refer style.sCSS for demo_.
 
 ## ChangeLog:
 1. v-1.0: Introduced.
