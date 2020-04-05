@@ -1,0 +1,85 @@
+@import "_helper-functions";
+
+/// Add-to mixns
+@mixin for-container($selector, $rules){
+	$media-container: map-merge($media-container, ($selector: $rules)) !global;
+}
+
+@mixin for-lg($selector, $rules){
+	$media-lg: map-merge($media-lg, ($selector: $rules)) !global;
+}
+
+@mixin for-md($selector, $rules){
+	$media-md: map-merge($media-md, ($selector: $rules)) !global;
+}
+
+@mixin for-ipad-min($selector, $rules){
+	$media-ipad-min: map-merge($media-ipad-min, ($selector: $rules)) !global;
+}
+
+@mixin for-sm($selector, $rules){
+	$media-sm: map-merge($media-sm, ($selector: $rules)) !global;
+}
+
+@mixin for-xs($selector, $rules){
+	$media-xs: map-merge($media-xs, ($selector: $rules)) !global;
+}
+
+@mixin for-screen($width, $selector, $rules){
+	@if index($breakpointsList, $width) == null {
+		$breakpointsList: append($breakpointsList, $width) !global;
+	} 
+
+	$existing-rules: ();
+	 @if map-has-key($media-for, $width){
+		$existing-rules: map-get($media-for, $width);
+	}
+	$existing-rules: map-merge($existing-rules, ($selector: $rules));	
+	$media-for: map-merge($media-for, ($width: $existing-rules)) !global;
+}
+
+@mixin apply-media-css(){
+	$breakpointsList: quick-sort($breakpointsList) !global;
+
+	@each $bp in $breakpointsList{
+		@if $bp == $container-width{
+			@include generate-css-for($bp, $media-container);
+		} @else if $bp == $lg{
+			@include generate-css-for($bp, $media-lg);
+		} @else if $bp == $md{
+			@include generate-css-for($bp, $media-md);
+		} @else if $bp == $ipad-min{
+			@include generate-css-for($bp, $media-ipad-min);
+		} @else if $bp == $sm{
+			@include generate-css-for($bp, $media-sm);
+		} @else if $bp == $xs{
+			@include generate-css-for($bp, $media-xs);
+		} @else{
+			@if $media-for != () {
+				@include generate-css-for($bp, map-get($media-for, $bp));
+			}
+		}
+	}
+}
+
+@mixin generate-css-for($screen, $css-rules){
+	@if $css-rules != (){
+		$console-msg: console('Generating media-queries for: ' + $screen);
+
+		$width-type: max;
+		@if $screen < 0px{
+			$width-type: min;
+			$screen: abs($screen);
+		}
+
+		@media screen and (#{$width-type}-width: #{$screen}) {
+			@each $selector, $rules in $css-rules{
+				#{$selector}{
+					@each $property, $value in $rules{
+						#{$property}: #{$value};
+					}
+				}
+			}
+		}
+	}
+}

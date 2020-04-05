@@ -1,0 +1,27 @@
+@import "media-query/_media-query-config";
+
+.test-class{
+	width: 1500px;
+	max-width: 100%;
+	border: 1px solid red;
+
+	@include for-container(&, (padding: 0 15px));
+	@include for-sm(&, (width: 700px, border: 1px solid #333));
+}
+
+#test-id{
+	background: rgba(0,0,0,0.5);
+	@include for-xs(&, (
+		color: red,
+		background-image: (url('image.jpg'), url('paint.svg')),
+		background-position: (left top, center bottom)
+	));
+
+	@include for-screen(-1200px, &, (background: #e9e9e9));
+}
+
+@include for-sm('.some-class', (text-align: center));
+
+@include for-screen(991px, '.some-class', (text-align: justify));
+
+@include apply-media-css();

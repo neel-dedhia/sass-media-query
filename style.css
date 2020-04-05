@@ -1,0 +1,44 @@
+.test-class {
+  width: 1500px;
+  max-width: 100%;
+  border: 1px solid red;
+}
+
+#test-id {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+@media screen and (max-width: 1200px) {
+  .test-class {
+    padding: 0 15px;
+  }
+}
+@media screen and (max-width: 991px) {
+  .some-class {
+    text-align: justify;
+  }
+}
+@media screen and (max-width: 767px) {
+  .test-class {
+    width: 700px;
+    border: 1px solid #333;
+  }
+
+  .some-class {
+    text-align: center;
+  }
+}
+@media screen and (max-width: 479px) {
+  #test-id {
+    color: red;
+    background-image: url("image.jpg"), url("paint.svg");
+    background-position: left top, center bottom;
+  }
+}
+@media screen and (min-width: 1200px) {
+  #test-id {
+    background: #e9e9e9;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

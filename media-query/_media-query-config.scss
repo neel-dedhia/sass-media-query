@@ -1,0 +1,25 @@
+@import "_media-query-mixins";
+
+///Breakpoints Constants
+///There are mixins associated with these variables, so do not change the name or type of these variables.
+$lg: 1366px;
+$md: 1024px;
+$ipad-min: 768px;
+$sm: 767px;
+$xs: 479px;
+$container-width: 1200px;
+$breakpointsList: ($container-width, $lg, $md, $ipad-min, $sm, $xs);
+
+$media-xs: ();	
+$media-sm: ();	
+$media-md: ();	
+$media-lg: ();	
+$media-ipad-min: ();	
+$media-container: (); 
+
+//for dynamic media-queries Eg: 1500px: (), 360px: (),
+$media-for: (); 
+
+//Debug Mode
+$debug-mode: false;
+$debug-count: 0;
