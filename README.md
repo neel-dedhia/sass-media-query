@@ -32,7 +32,7 @@ This helps to keep CSS code length minimal and up to the mark and also it become
 #### *For the standard breakpoints:*
 
 ```
-@include for-{breakpoint_name}(selector_name, (
+@include for-media('breakpoint_name', selector_name, (
 	CSS-property1: value1,
 	CSS-property2: value2,
 	...
@@ -42,7 +42,7 @@ This helps to keep CSS code length minimal and up to the mark and also it become
 
 **Example**:
 ```
-@include for-md('.some-class', (
+@include for-media('md', '.some-class', (
 	display: block,
 	width: 60%,
 	border: 1px solid #222,
