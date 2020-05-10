@@ -1,30 +1,47 @@
 @import "_helper-functions";
 
-/// Add-to mixns
-@mixin for-container($selector, $rules){
-	$media-container: map-merge($media-container, ($selector: $rules)) !global;
+/// TO add new constant breakpoint copy the below code for respective mixins change the required values and place them accordingly
+
+/// In for-media() mixin
+/// @else if $media-type == '{breakpoint-name}'{
+///		$media-{breakpoint-name}: map-merge($media-{breakpoint-name}, ($selector: $rules)) !global;
+///	}
+
+/// In apply-media-css()
+/// @else if $bp == ${breakpoint-name}{
+/// 	@include generate-css-for($bp, $media-{breakpoint-name});
+/// }
+
+
+/// @since v1.5
+/// To apply media-queries to constant screen widths
+@mixin for-media($media-type, $selector, $rules){
+
+	@if $media-type == 'container'{
+		$media-container: map-merge($media-container, ($selector: $rules)) !global;
+	} 
+	@else if $media-type == 'xl'{
+		$media-xl: map-merge($media-xl, ($selector: $rules)) !global;
+	}
+	@else if $media-type == 'lg'{
+		$media-lg: map-merge($media-lg, ($selector: $rules)) !global;
+	}
+	@else if $media-type == 'md'{
+		$media-md: map-merge($media-md, ($selector: $rules)) !global;
+	}
+	@else if $media-type == 'sm'{
+		$media-sm: map-merge($media-sm, ($selector: $rules)) !global;
+	}
+	@else if $media-type == 'xs'{
+		$media-xs: map-merge($media-xs, ($selector: $rules)) !global;
+	}
+	@else{
+		@error "#{$media-type} Does not exists in config.";
+	}
 }
 
-@mixin for-lg($selector, $rules){
-	$media-lg: map-merge($media-lg, ($selector: $rules)) !global;
-}
-
-@mixin for-md($selector, $rules){
-	$media-md: map-merge($media-md, ($selector: $rules)) !global;
-}
-
-@mixin for-ipad-min($selector, $rules){
-	$media-ipad-min: map-merge($media-ipad-min, ($selector: $rules)) !global;
-}
-
-@mixin for-sm($selector, $rules){
-	$media-sm: map-merge($media-sm, ($selector: $rules)) !global;
-}
-
-@mixin for-xs($selector, $rules){
-	$media-xs: map-merge($media-xs, ($selector: $rules)) !global;
-}
-
+/// @since v1.0
+/// To apply media queries to dynamic screen widths.
 @mixin for-screen($width, $selector, $rules){
 	@if index($breakpointsList, $width) == null {
 		$breakpointsList: append($breakpointsList, $width) !global;
@@ -38,23 +55,31 @@
 	$media-for: map-merge($media-for, ($width: $existing-rules)) !global;
 }
 
+/// @since v1.0
+/// To dump all media-queries in css file.
 @mixin apply-media-css(){
 	$breakpointsList: quick-sort($breakpointsList) !global;
 
 	@each $bp in $breakpointsList{
 		@if $bp == $container-width{
 			@include generate-css-for($bp, $media-container);
-		} @else if $bp == $lg{
+		} 
+		@else if $bp == $xl{
+			@include generate-css-for($bp, $media-xl);
+		}
+		@else if $bp == $lg{
 			@include generate-css-for($bp, $media-lg);
-		} @else if $bp == $md{
+		} 
+		@else if $bp == $md{
 			@include generate-css-for($bp, $media-md);
-		} @else if $bp == $ipad-min{
-			@include generate-css-for($bp, $media-ipad-min);
-		} @else if $bp == $sm{
+		}
+		@else if $bp == $sm{
 			@include generate-css-for($bp, $media-sm);
-		} @else if $bp == $xs{
+		} 
+		@else if $bp == $xs{
 			@include generate-css-for($bp, $media-xs);
-		} @else{
+		} 
+		@else{
 			@if $media-for != () {
 				@include generate-css-for($bp, map-get($media-for, $bp));
 			}
@@ -62,18 +87,21 @@
 	}
 }
 
-@mixin generate-css-for($screen, $css-rules){
-	@if $css-rules != (){
+/// @since v1.0
+/// Generates media-queries for breakpoints.
+/// Called internally by mixin apply-media-css()
+@mixin generate-css-for($screen, $css-props){
+	@if $css-props != (){
 		$console-msg: console('Generating media-queries for: ' + $screen);
-
+	
 		$width-type: max;
 		@if $screen < 0px{
 			$width-type: min;
 			$screen: abs($screen);
 		}
-
+		
 		@media screen and (#{$width-type}-width: #{$screen}) {
-			@each $selector, $rules in $css-rules{
+			@each $selector, $rules in $css-props{
 				#{$selector}{
 					@each $property, $value in $rules{
 						#{$property}: #{$value};
@@ -81,5 +109,6 @@
 				}
 			}
 		}
+
 	}
 }

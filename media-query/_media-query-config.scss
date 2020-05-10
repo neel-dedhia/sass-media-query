@@ -2,19 +2,21 @@
 
 ///Breakpoints Constants
 ///There are mixins associated with these variables, so do not change the name or type of these variables.
-$lg: 1366px;
-$md: 1024px;
-$ipad-min: 768px;
+/// $breakpoint-name: value;
+$xl: 1366px;
+$lg: 1024px;
+$md: 991px;
 $sm: 767px;
 $xs: 479px;
 $container-width: 1200px;
-$breakpointsList: ($container-width, $lg, $md, $ipad-min, $sm, $xs);
+$breakpointsList: ($container-width, $xl, $lg, $md, $sm, $xs);
 
-$media-xs: ();	
-$media-sm: ();	
-$media-md: ();	
+/// $media-{breakpoint-name}: ();	
+$media-xl: ();	
 $media-lg: ();	
-$media-ipad-min: ();	
+$media-md: ();	
+$media-sm: ();	
+$media-xs: ();	
 $media-container: (); 
 
 //for dynamic media-queries Eg: 1500px: (), 360px: (),

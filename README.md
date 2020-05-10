@@ -22,58 +22,15 @@ This helps to keep CSS code length minimal and up to the mark and also it become
 
 **Summary**: So all media query CSS is stored in s buffer and dumped when you call apply-media-CSS() mixin.
 
-## Lets use it
 
-1. Include this line in your style.sCSS<br> 
-``` @import "media-query/_media-query-config"; ```
-2. Include this line in our sCSS file where you want to generate media query CSS<br> 
-``` @include apply-media-CSS(); ```
-
-#### *For the standard breakpoints:*
-
-```
-@include for-{breakpoint_name}(selector_name, (
-	CSS-property1: value1,
-	CSS-property2: value2,
-	...
-	CSS-propertyN: valueN
-));
-```
-
-**Example**:
-```
-@include for-md('.some-class', (
-	display: block,
-	width: 60%,
-	border: 1px solid #222,
-	padding: 30px,
-	margin: 0 auto
-));
-```
-#### *For other screen widths:*
-```
-@include for-screen(screen_width, selector_name, (
-	CSS-property1: value1,
-	CSS-property2: value2,
-	...
-	CSS-propertyN: valueN
-));
-```
-
-**Example**:
-```
-@include for-screen(991px, '.some-class', (
-	display: block,
-	width: 60%,
-	border: 1px solid #222,
-	padding: 30px,
-	margin: 0 auto
-));
-```
-
-> This will generate media query of (max-width: 991px), for (min-width: 991px) give screen with - as prefix. (Example: for-screen(-991px, ..., (...));)
-
-_You can refer style.sCSS for demo_.
+#### ADD a new breakpoint constant
+1. In **_media-query-config.scss**
+	* Create a variable with the constant name you want. (EG: $ipad: 768px; )
+	* Create a empty list like this: $media-ipad: ();
+	* Save the file.
+2. In **_media-query-mixins.scss**
+	* There is code snippet documented in that file for adding your new breakpoint into required mixins follow those properly and save the file.
 
 ## ChangeLog:
 1. v-1.0: Introduced.
+2. v-1.5: One mixin for all breakpoints constant.

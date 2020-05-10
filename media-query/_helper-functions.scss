@@ -1,5 +1,5 @@
 /// Quick sort
-/// @author Sam Richards
+/// @since v1.0
 /// @param {List} $list - list to sort
 /// @return {List}
 @function quick-sort($list) {
@@ -26,7 +26,8 @@
   @return $list;
 }
 
-
+/// @since v1.0
+/// @used as debugging console when $debug-mode is true in config.
 @function console($msg){
   @if $debug-mode {
     $debug-count: $debug-count + 1 !global;
