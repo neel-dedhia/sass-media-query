@@ -15,42 +15,78 @@
 
 /// @since v1.5
 /// To apply media-queries to constant screen widths
-@mixin for-media($media-type, $selector, $rules){
+@mixin for-media($media-type, $selector, $css){
 
 	@if $media-type == 'container'{
-		$media-container: map-merge($media-container, ($selector: $rules)) !global;
+		$media-container: map-merge($media-container, ($selector: $css)) !global;
 	} 
 	@else if $media-type == 'xl'{
-		$media-xl: map-merge($media-xl, ($selector: $rules)) !global;
+		$media-xl: map-merge($media-xl, ($selector: $css)) !global;
 	}
 	@else if $media-type == 'lg'{
-		$media-lg: map-merge($media-lg, ($selector: $rules)) !global;
+		$media-lg: map-merge($media-lg, ($selector: $css)) !global;
 	}
 	@else if $media-type == 'md'{
-		$media-md: map-merge($media-md, ($selector: $rules)) !global;
+		$media-md: map-merge($media-md, ($selector: $css)) !global;
 	}
 	@else if $media-type == 'sm'{
-		$media-sm: map-merge($media-sm, ($selector: $rules)) !global;
+		$media-sm: map-merge($media-sm, ($selector: $css)) !global;
 	}
 	@else if $media-type == 'xs'{
-		$media-xs: map-merge($media-xs, ($selector: $rules)) !global;
+		$media-xs: map-merge($media-xs, ($selector: $css)) !global;
 	}
 	@else{
 		@if index($breakpointsList, $media-type) == null {
 			$breakpointsList: append($breakpointsList, $media-type) !global;
 		} 
 
-		$existing-rules: ();
+		$existing-css: ();
 		@if map-has-key($media-for, $media-type){
-			$existing-rules: map-get($media-for, $media-type);
+			$existing-css: map-get($media-for, $media-type);
 		}
-		$existing-rules: map-merge($existing-rules, ($selector: $rules));	
-		$media-for: map-merge($media-for, ($media-type: $existing-rules)) !global;
+		$new-css: map-merge($existing-css, ($selector: $css));	
+		$media-for: map-merge($media-for, ($media-type: $new-css)) !global;
+	}
+}
+
+/// @since v2.0
+/// To add custom media query info
+@mixin add-custom-media($media-name, $media-param){
+	$media-custom-meta: map-merge($media-custom-meta, ($media-name: $media-param)) !global;
+}
+
+/// @since v2.0
+/// To apply css for custom media 
+@mixin for-media-custom($media-name, $selector, $css){
+	@if map-has-key($media-custom-meta, $media-name){
+		$existing-css: ();
+		@if map-has-key($media-custom, $media-name){
+			$existing-css: map-get($media-custom, $media-name);
+		}
+		$existing-css: map-merge($existing-css, ($selector: $css));	
+		$media-custom: map-merge($media-custom, ($media-name: $existing-css)) !global;
+	}
+	@else {
+		@debug 'Use add-custom-media() to add custom media' $media-name;
+	}
+}
+
+/// @since v2.0
+/// Prints Media Query
+@mixin print-media-query($media-param, $css){
+	@media #{$media-param} {
+		@each $selector, $css-props in $css {
+			#{$selector} {
+				@each $prop, $val in $css-props {
+					#{$prop}: #{$val};
+				}
+			}
+		}
 	}
 }
 
 /// @since v1.0
-/// To dump all media-queries in css file.
+/// To print all media-queries in css file.
 @mixin apply-media-css(){
 	$breakpointsList: quick-sort($breakpointsList) !global;
 
@@ -81,11 +117,48 @@
 	}
 }
 
+/// @since @v2.0
+/// To print all custom media-queries in css file
+@mixin apply-media-custom-css(){
+	@each $media-name, $media-param in $media-custom-meta{
+		$css : map-get($media-custom, $media-name);
+
+		@if $css != null {
+			@include print-media-query($media-param, $css);
+		} @else {
+			@debug 'No css provided for "#{$media-name}"';
+		}
+	}
+}
+
+/// @since v2.0
+/// To print specific custom media query
+@mixin print-custom-media-for($media-name, $preserve: true){
+	$media-param: map-get($media-custom-meta, $media-name);
+	$css: map-get($media-custom, $media-name);
+
+	@if $media-param != null {
+		@if $css != null {
+			@include print-media-query($media-param, $css);
+
+			@if $preserve != true {
+				$media-custom: map-remove($media-custom, $media-name) !global;
+			}
+
+		} @else {
+			@debug 'No css provided for "#{$media-name}"';
+		}
+	} @else {
+		@debug 'Use add-custom-media() to add custom media' $media-name;
+	}
+}
+
+
 /// @since v1.0
 /// Generates media-queries for breakpoints.
 /// Called internally by mixin apply-media-css()
-@mixin generate-css-for($screen, $css-props){
-	@if $css-props != (){
+@mixin generate-css-for($screen, $css){
+	@if $css != (){
 		$console-msg: console('Generating media-queries for: ' + $screen);
 	
 		$width-type: max;
@@ -93,16 +166,7 @@
 			$width-type: min;
 			$screen: abs($screen);
 		}
-		
-		@media screen and (#{$width-type}-width: #{$screen}) {
-			@each $selector, $rules in $css-props{
-				#{$selector}{
-					@each $property, $value in $rules{
-						#{$property}: #{$value};
-					}
-				}
-			}
-		}
 
+		@include print-media-query('screen and (#{$width-type}-width: #{$screen})', $css);
 	}
 }

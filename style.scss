@@ -6,7 +6,14 @@
 	border: 1px solid red;
 	@include for-media('container', &, (padding: 0 15px));
 	@include for-media('sm', &, (width: 700px, border: 1px solid #333));
+	
+	@include add-custom-media('speech', 'speech and (aspect-ratio: 11/5)');
+	@include add-custom-media('hover', '(hover: hover)');
 
+	@include for-media-custom('speech', &, (background: blue));
+	@include for-media-custom('hover', &, (background: black));
+
+	@include print-custom-media-for('speech', false); /// setting preserve to false
 }
 
 #test-id{
@@ -26,3 +33,5 @@
 @include for-media(991px, '.some-class', (text-align: justify));
 
 @include apply-media-css();
+
+@include apply-media-custom-css();

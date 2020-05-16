@@ -22,6 +22,9 @@ $media-container: ();
 //for dynamic media-queries Eg: 1500px: (), 360px: (),
 $media-for: (); 
 
+//For custom media-query
+$media-custom-meta: ();
+$media-custom: ();
 //Debug Mode
 $debug-mode: false;
 $debug-count: 0;
