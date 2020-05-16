@@ -36,23 +36,17 @@
 		$media-xs: map-merge($media-xs, ($selector: $rules)) !global;
 	}
 	@else{
-		@error "#{$media-type} Does not exists in config.";
-	}
-}
+		@if index($breakpointsList, $media-type) == null {
+			$breakpointsList: append($breakpointsList, $media-type) !global;
+		} 
 
-/// @since v1.0
-/// To apply media queries to dynamic screen widths.
-@mixin for-screen($width, $selector, $rules){
-	@if index($breakpointsList, $width) == null {
-		$breakpointsList: append($breakpointsList, $width) !global;
-	} 
-
-	$existing-rules: ();
-	 @if map-has-key($media-for, $width){
-		$existing-rules: map-get($media-for, $width);
+		$existing-rules: ();
+		@if map-has-key($media-for, $media-type){
+			$existing-rules: map-get($media-for, $media-type);
+		}
+		$existing-rules: map-merge($existing-rules, ($selector: $rules));	
+		$media-for: map-merge($media-for, ($media-type: $existing-rules)) !global;
 	}
-	$existing-rules: map-merge($existing-rules, ($selector: $rules));	
-	$media-for: map-merge($media-for, ($width: $existing-rules)) !global;
 }
 
 /// @since v1.0

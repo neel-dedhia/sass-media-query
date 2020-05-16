@@ -15,12 +15,12 @@ This helps to keep CSS code length minimal and up to the mark and also it become
 
 ## How Does it Work??
 * The plugin contains a _media-query-config.scss file where the standard media-queries like sm, lg, md, xs have some fixed value, you can change as per your need.
-* Calling the respective mixins you can pass CSS for the class you want. 
+* Using mixin for-media() you can pass your css for specific screen width. 
 * This will create a sass-map for each breakpoints which will act like buffer. 
 * Everytime you call a mixin of specific breakpoint (eg: for-sm(...)) the CSS you specify will be stored in the respective buffer map for the respective class. 
 * When you will call apply-media-CSS() mixin all this buffer maps will be released and printed.
 
-**Summary**: So all media query CSS is stored in s buffer and dumped when you call apply-media-CSS() mixin.
+**Summary**: So all media query CSS is stored in a buffer and dumped when you call apply-media-CSS() mixin.
 
 ## Lets use it
 
@@ -50,9 +50,9 @@ This helps to keep CSS code length minimal and up to the mark and also it become
 	margin: 0 auto
 ));
 ```
-#### *For other screen widths:*
+#### *For screen widths other than standard breakpoints:*
 ```
-@include for-screen(screen_width, selector_name, (
+@include for-media(screen_width, selector_name, (
 	CSS-property1: value1,
 	CSS-property2: value2,
 	...
@@ -62,7 +62,7 @@ This helps to keep CSS code length minimal and up to the mark and also it become
 
 **Example**:
 ```
-@include for-screen(991px, '.some-class', (
+@include for-media(991px, '.some-class', (
 	display: block,
 	width: 60%,
 	border: 1px solid #222,
@@ -73,7 +73,7 @@ This helps to keep CSS code length minimal and up to the mark and also it become
 
 > This will generate media query of (max-width: 991px), for (min-width: 991px) give screen with - as prefix. (Example: for-screen(-991px, ..., (...));)
 
-_You can refer style.sCSS for demo_.
+_You can refer style.scss for demo_.
 
 
 #### ADD a new breakpoint constant
@@ -87,3 +87,4 @@ _You can refer style.sCSS for demo_.
 ## ChangeLog:
 1. v-1.0: Introduced.
 2. v-1.5: One mixin for all breakpoints constant.
+3. v-1.6: Combined for-media() and for-screen() mixin & examples updated.
