@@ -1,4 +1,4 @@
-# Sass Media Query (v-2.0)
+# Sass Media Query (v2.0)
 *-A new approach to write media queries in sass.*
 
 *-v2.0 Support for custom media queries*
@@ -92,7 +92,7 @@ _You can refer style.scss for demo_.
 
 **Syntax:**
 ```
-	@inlcude add-media-custom('media-name', 'media-parameter');
+	@inlcude add-custom-media('media-name', 'media-parameter');
 ```
 **Example:**
 ```
@@ -116,6 +116,7 @@ _You can refer style.scss for demo_.
 
 * To print custom media query use `apply-media-custom-css()`.
 * To print custom media query of specific media type use `print-custom-media-for().`
+
 **Syntax:**
 ```
 	@inlcude print-custom-media-for('media-name', $preserve: false);
