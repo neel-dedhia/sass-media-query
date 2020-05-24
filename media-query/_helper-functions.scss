@@ -38,3 +38,16 @@
 
   @return NULL;
 }
+
+/// @since v2.1
+/// TO change constant breakpoint value
+@function reset-brkpt($old, $new){
+  $i: index($breakpointsList, $old);
+  @if $i != null {
+    $breakpointsList: set-nth($breakpointsList, $i, $new) !global;
+    @return $new;
+  }
+  //value not found
+  @debug $old 'not found in breakpointsList';
+  @return $old;
+}
